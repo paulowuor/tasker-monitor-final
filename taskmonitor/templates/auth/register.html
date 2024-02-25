@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="mt-5 columns">
+    <form method="post" class="column box is-3 mx-auto p-5">
+        {% csrf_token %}
+        <div class="pb-3">
+            <h3 class="is-size-4">Create Account</h3>
+            <hr>
+        </div>
+        <div>
+            <div class="control mb-5">
+                <label for="staff_id" class="label">Staff Id</label>
+                <input type="text" value="{{userdata.staff_id}}" class="input is-link" name="staff_id" id="staff_id" required>
+                {% if error.staff_id %}<p class="has-text-danger">{{error.staff_id}}</p>{% endif %}
+            </div>
+
+            <div class="control mb-5">
+                <label for="username" class="label">Name</label>
+                <input type="text" value="{{userdata.username}}" class="input is-link" name="username" id="username" required>
+                {% if error.username %}<p class="has-text-danger">{{error.username}}</p>{% endif %}
+            </div>
+
+            <div class="control mb-5">
+                <label for="password1" class="label">Password</label>
+                <input type="password" value="{{userdata.password1}}" class="input is-link" name="password1" id="password1" required>
+                {% if error.password1 %}<p class="has-text-danger">{{error.password1}}</p>{% endif %}
+            </div>
+
+            <div class="control mb-5">
+                <label for="password2" class="label">Confirm Password</label>
+                <input type="password" value="{{userdata.password2}}" class="input is-link" name="password2" id="password2" required>
+                {% if error.password2 %}<p class="has-text-danger">{{error.password2}}</p>{% endif %}
+            </div>
+
+            <div class="control mb-3">
+                <button class="button input is-link" type="submit">Register</button>
+            </div>
+
+            <div class="control">
+                Already have an account? <a href="{% url 'login' %}" class="link"> Login</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

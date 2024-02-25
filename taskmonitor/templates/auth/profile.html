@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+
+<div class="columns mt-5">
+    <div class="column is-8 mx-auto is-flex">
+        <div class="column is-5 box p-4 mx-auto">
+            <div class="">
+                <p class="is-size-4">User Profile</p>
+                <hr>
+            </div>
+            <div class="control mb-4">
+                <label for="" class="label">Staff Id</label>
+                <input type="text" value="{{user.staff_id}}" class="input select-none" disabled>
+            </div>
+            <div class="mb-5 control">
+                <label for="" class="label">Name</label>
+                <input type="text" class="input" value="{{user.username}}" disabled>
+            </div>
+        </div>
+
+        <div class="column is-5 box p-4 mx-auto">
+            <div class="">
+                <p class="is-size-4">Edit Password</p>
+                <hr>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="control mb-4">
+                    <label for="password" class="label">Current Password</label>
+                    <input type="password" value="{{userdata.password}}" name="password" id="password"
+                        class="input is-link" required>
+                    {% if error.password %}<p class="has-text-danger">{{error.password}}</p>{% endif %}
+                </div>
+
+                <div class="control mb-4">
+                    <label for="password1" class="label">New Password</label>
+                    <input type="password" value="{{userdata.password1}}" name="password1" id="password1"
+                        class="input is-link" required>
+                    {% if error.password1 %}<p class="has-text-danger">{{error.password1}}</p>{% endif %}
+                </div>
+
+                <div class="control mb-4">
+                    <label for="password2" class="label">Confirm Password</label>
+                    <input type="password" value="{{userdata.password2}}" name="password2" id="password2"
+                        class="input is-link" required>
+                    {% if error.password2 %}<p class="has-text-danger">{{error.password2}}</p>{% endif %}
+                </div>
+
+                <div class="control">
+                    <button type="submit" class="is-link button input">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

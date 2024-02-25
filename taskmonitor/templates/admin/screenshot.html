@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block title %}{{screenshot.user.staff_id}}{% endblock %}
+{% block content %}
+    <div class="box container mt-5">
+    <div class="m-4">
+        <img src="/media/{{screenshot.image}}" alt="">
+    </div>
+    <div class="mt-4">
+        <p><b>User : </b>{{screenshot.user.username}}</p>
+        <p><b>Taken On : </b>{{screenshot.created_at}}</p>
+    </div>
+    </div>
+{% endblock %}

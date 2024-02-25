@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+    <div class="container box mt-5">
+        <div>
+            <p class="is-size-4">Hours Worked</p>
+            <p>{{user.work_hours}}</p>
+        </div>
+
+        <div class="mt-5">
+            <p class="is-size-4">Hour Rate</p>
+            <p>Ksh. {{hour_rate}}</p>
+        </div>
+        
+        <div class="mt-4">
+            <p class="is-size-4">Total Amount</p>
+            <p>Ksh. {{user.payment}}</p>
+        </div>
+    </div>
+{% endblock %}

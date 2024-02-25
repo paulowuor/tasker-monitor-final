@@ -1,0 +1,45 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+
+<div class="box container mt-5">
+    <h3 class="is-size-4">System Users</h3>
+    <hr>
+    <div class="mt-3">
+        <table class="table is-striped is-hoverable is-bordered is-fullwidth">
+            <thead>
+                <th>Staff Id</th>
+                <th>Staff Name</th>
+                <th>Hours Worked</th>
+                <th>Last Login</th>
+                <th>Tasks Assigned</th>
+                <th>Active Tasks</th>
+                <th>Completed Tasks</th>
+                <th>Cancelled Tasks</th>
+                <th>Expired Tasks</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for sys_user in users %}
+                    {% if sys_user.id != user.id %}
+                        <tr>
+                            <td>{{sys_user.staff_id}}</td>
+                            <td>{{sys_user.username}}</td>
+                            <td>{{sys_user.work_hours}}</td>
+                            <td>{{sys_user.last_login}}</td>
+                            <td>{{sys_user.total_tasks}}</td>
+                            <td>{{sys_user.active_tasks}}</td>
+                            <td>{{sys_user.completed_tasks}}</td>
+                            <td>{{sys_user.cancelled_tasks}}</td>
+                            <td>{{sys_user.expired_tasks}}</td>
+                            <td>
+                                <a href="{% url 'user-details' user_id=sys_user.user_id %}">View Details</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

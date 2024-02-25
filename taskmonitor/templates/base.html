@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <title>
+        Task Monitor | {% block title %}Dashboard{% endblock %}
+    </title>
+    <script src="{% static 'js/html2canvas.min.js' %}"></script>
+</head>
+
+<body id="capture-element">
+
+    <div></div>
+    <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+        <div class="navbar-menu">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <h1 class="title is-4 has-text-white">Task Monitor</h1>
+                </a>
+                <p class="has-text-white is-size-6 navbar-item">{{ user.username }}</p>
+            </div>
+            <div class="navbar-end is-flex is-justify-content-end">
+                <a class="navbar-item" href="{% url 'home' %}">Home</a>
+                {% if user.is_authenticated %}
+                <a class="navbar-item has-text-white" href="{% url 'task-history' %}">Task History</a>
+                {% if user.paused %}
+                <a href="{% url 'pause' %}" class="navbar-item has-text-white">UnPause</a>
+                {% else %}
+                <a href="{% url 'pause' %}" class="navbar-item has-text-white">Pause</a>
+                {% endif %}
+                <a class="navbar-item has-text-white" href="{% url 'payment' %}">Payment</a>
+                <a class="navbar-item has-text-white" href="{% url 'profile' %}">Profile</a>
+                <a class="navbar-item has-text-white" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a class=" navbar-item has-text-white" href="{% url 'login' %}">Login</a>
+                <a class=" navbar-item has-text-white" href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+
+    {% if user.is_authenticated %}
+    <script>
+        window.onload = () => {
+            captureScreenshot();
+        }
+
+        const getRandomBoolean = () => Math.random() < 0.5;
+
+        setInterval(() => {
+            addMinute();
+        }, 10000)
+
+        setInterval(() => {
+            if (getRandomBoolean()) {
+                captureScreenshot()
+            }
+        }, 1 * 60 * 1000);
+
+        function captureScreenshot() {
+            const targetElement = document.getElementById('capture-element');
+
+            html2canvas(targetElement).then(canvas => {
+                const dataURL = canvas.toDataURL('image/png');
+
+                const blob = dataURItoBlob(dataURL);
+
+                const formData = new FormData();
+                formData.append('screenshot', blob, 'screenshot.png');
+
+                fetch('http://localhost:8000/save-screenshot/', {
+                    method: 'POST',
+                    body: formData,
+                });
+            });
+        }
+
+        function addMinute() {
+            fetch('http://localhost:8000/add-minute/', {
+                method: 'GET'
+            });
+        }
+
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            return new Blob([ab], { type: mimeString });
+        }
+
+
+    </script>
+    {% endif %}
+</body>
+
+</html>

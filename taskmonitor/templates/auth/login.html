@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<div class="mt-5 columns">
+    <form method="post" class="column box is-3 mx-auto p-5">
+        {% csrf_token %}
+        <div class="pb-3">
+            <h3 class="is-size-4">Login</h3>
+            {% if error.all %}
+            <p class="is-size-5 has-text-danger">{{error.all}}</p>
+            {% endif %}
+            <hr>
+        </div>
+        <div>
+            <div class="control mb-5">
+                <label for="staff_id" class="label">Staff Id</label>
+                <input type="text" class="input is-link" name="staff_id" id="staff_id" required>
+            </div>
+
+            <div class="control mb-5">
+                <label for="password" class="label">Password</label>
+                <input type="password" class="input is-link" name="password" id="password" required>
+            </div>
+
+            <div class="control mb-3">
+                <button class="button input is-link" type="submit">Login</button>
+            </div>
+
+            <div class="control">
+                Don't have an account? <a href="{% url 'register' %}" class="link">Create one</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

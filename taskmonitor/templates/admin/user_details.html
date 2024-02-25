@@ -1,0 +1,108 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block title %}{{vuser.staff_id}}{% endblock %}
+{% block content %}
+
+<div class="box container mt-5">
+    <div class="mb-5">
+        <h3 class="is-size-4">User Details</h3>
+        <hr>
+        <div class="columns is-multiline">
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Staff Id</b></p> : <p class="ml-3">{{vuser.staff_id}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Staff Name</b></p> : <p class="ml-3">{{vuser.username}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Assigned Tasks</b></p> : <p class="ml-3">{{vuser.all_tasks}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Active Tasks</b></p> : <p class="ml-3">{{vuser.active_tasks}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Completed Tasks</b></p> : <p class="ml-3">{{vuser.completed_tasks}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Cancelled Tasks</b></p> : <p class="ml-3">{{vuser.cancelled_tasks}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Expired Tasks</b></p> : <p class="ml-3">{{vuser.expired_tasks}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Hours Worked</b></p> : <p class="ml-3">{{vuser.work_hours}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Hourly Rate</b></p> : <p class="ml-3">Ksh. {{vuser.hour_rate}}</p>
+            </div>
+            <div class="is-flex column is-6 p-4">
+                <p class=""><b>Total Amount</b></p> : <p class="ml-3">Ksh. {{vuser.payment}}</p>
+            </div>
+        </div>
+        <button type="button" class="button is-primary input" onclick="MakePayment()">Payout (Ksh.
+            {{vuser.payment}})</button>
+    </div>
+    <h3 class="is-size-4">Assigned Tasks</h3>
+    <hr>
+    <div class="mt-3">
+        <table class="table is-striped is-hoverable is-bordered is-fullwidth">
+            <thead>
+                <th>Task Name</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Completion Date</th>
+
+                <th></th>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{task.task_name}}</td>
+                    <td>{{task.task_status}}</td>
+                    <td>{{task.created_at}}</td>
+                    <td>{{task.end_date}}</td>
+                    <td>{{task.finish_date}}</td>
+                    <td>
+                        <a href="{% url 'task-details' task_id=task.task_id %}">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="my-3">
+            <p class="is-size-4">Screenshots</p>
+        </div>
+        <div class="columns is-multiline" style="max-height: 60vh;overflow: scroll;">
+            {% for screenshot in screenshots %}
+            <div class="column is-3 p-4 is-flex is-flex-direction-column is-justify-content-space-between">
+                <div class="p-3 box">
+                    <img src="/media/{{screenshot.image}}" alt="">
+                    <hr>
+                    <div class="is-flex is-justify-content-space-between">
+                        <p>{{screenshot.created_at}}</p>
+                        <a href="{% url 'screenshot'  pk=screenshot.screenshot_id%}"
+                            class="has-text-info is-size-5">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function MakePayment() {
+        var user_id = '{{vuser.user_id}}';
+        var confirm = 
+    }
+
+    function sendPayment() {
+        fetch('http://localhost:8000/{{vuser.user_id}}/payment/', {
+            method: 'GET'
+        });
+    }
+</script>
+
+{% endblock %}
